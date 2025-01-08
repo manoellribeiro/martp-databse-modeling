@@ -254,12 +254,14 @@ CREATE INDEX idx_map_arts_location ON "map_arts" ("latitude", "longitude");
 INSERT INTO "users" ("id", "email", "password", "name", "createdAt") 
 VALUES (uuid, 'user@exemplo.com', 'password', 'User One', NOW());
 ```
+<img src="assets/cadastro.png" alt="drawing" style="height:300px;"/>
 
 ### RF2 - Login de usuário
 
 ```
 SELECT * FROM "users" WHERE "email" = 'user@exemplo.com' AND "password" = 'password';
 ```
+<img src="assets/login.png" alt="drawing" style="height:300px;"/>
 
 ### RF3 - Criar uma paleta de cores:
 
@@ -267,6 +269,8 @@ SELECT * FROM "users" WHERE "email" = 'user@exemplo.com' AND "password" = 'passw
 INSERT INTO "color_palettes" ("id", "userId", "primaryColor", "secondaryColor", "thirdColor", "createdAt")
 VALUES ('uuid', (SELECT "id" FROM "users" WHERE "email" = 'user@exemplo.com'), 'FF0000', '00FF00', '0000FF', NOW());
 ```
+
+<img src="assets/criar_paleta.png" alt="drawing" style="height:300px;"/>
 
 ### RF4 - Criar uma arte de mapa:
 
@@ -276,6 +280,8 @@ VALUES ('uuid', 'userId',
         'colorPaletteId',
         'My First Art', 'https://example.com/image.jpg', -33.8688, 151.2093, NOW());
 ```
+
+<img src="assets/criar_arte.png" alt="drawing" style="height:300px;"/>
 
 ### RF5 - Deletar uma arte de mapa:
 
@@ -334,6 +340,8 @@ END;
 $$;
 ```
 
+<img src="assets/perfil.png" alt="drawing" style="height:300px;"/>
+
 ### RF7 - Buscar um perfil de usuário:
 
 Para buscar um perfil de usuário, vamos usar a mesma materialized view que criarmos anteriormente, entretanto agora vamos usar o email do usuário na query:
@@ -373,6 +381,8 @@ SELECT * FROM "map_arts"
 INNER JOIN "users_favorites_posts" ON "map_arts"."id" = "users_favorites_posts"."postId" 
 WHERE "users_favorites_posts"."userId" = 'userId';
 ```
+
+<img src="assets/artes_favoritas.png" alt="drawing" style="height:300px;"/>
 
 ### RF12 - Ver detalhes de uma arte de mapa
 
@@ -417,6 +427,8 @@ END;
 $$;
 ```
 
+<img src="assets/detalhes.png" alt="drawing" style="height:300px;"/>
+
 ### RF13 - Criar uma arte de mapa e uma nova paleta de cores ao mesmo tempo.
 
 Para atender esse requisito, vamos precisar fazer dois insertes no banco de dados, então vamos criar uma procedure para fazer essas ações:
@@ -450,6 +462,8 @@ Então sempre que fomos criar uma arte de mapa sem uma paleta de cores existente
 ```
 CALL create_map_art_with_palette('31193780-dd8a-4738-819a-eff52cbc043d', 'Meu Mapa', 'FF0000', '00FF00', '0000FF');
 ```
+
+<img src="assets/criar_arte.png" alt="drawing" style="height:300px;"/>
 
 # 8. Backup do banco de dados
 
