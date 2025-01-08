@@ -6,6 +6,12 @@ estática utilizando a API do [Mapbox](https://www.mapbox.com/) e então manipul
 Entretanto, esse projeto foi feito inicialmente para funcionar em um browser e depois fiz um aplicativo android que funciona totalmente com um banco de dados local.
 Meu objetivo, é criar um sistema completo e open source para esse projeto, onde as pessoas poderão, além de criar artes nos seus celulares android, interagir com as artes de outras pessoas.
 
+Abaixo temos algumas demonstrações de artes criadas com o projeto original:
+
+<img src="assets/ufba_map_art.jpg" alt="drawing" style="width:300px;"/> <img src="assets/brasilia_map_art.jpg" alt="drawing" style="width:300px;"/> 
+
+Na esquerda temos uma arte gerada no campus de ondina da UFBA e na direita temos uma parte da Asa Norte da cidade Brasília.
+
 # 2. Requisitos Funcionais
 
 ### RF1 -  Cadastro de usuário
