@@ -154,13 +154,13 @@ O usuário pode criar uma arte de mapa escolhendo três cores novas sem a necess
 
 O modelo conceitual do banco de dados foi criado utilizando a ferramenta [BrModelo](https://www.brmodeloweb.com/lang/pt-br/index.html).
 
-![Modelo conceitual para o banco de dados do Martp](../assets/modelo_conceitual.png)
+![Modelo conceitual para o banco de dados do Martp](assets/modelo_conceitual.png)
 
 # 5. Modelo Lógico
 
 O modelo lógico do banco de dados foi criado utilizando a ferramenta [DBDiagram](https://dbdiagram.io/).
 
-![Modelo lógico para o banco de dados do Martp](../assets/modelo_logico.png)
+![Modelo lógico para o banco de dados do Martp](assets/modelo_logico.png)
 
 # 5. Criação do banco de Dados
 
