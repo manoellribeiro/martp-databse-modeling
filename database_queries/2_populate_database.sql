@@ -1,8 +1,8 @@
 INSERT INTO "users" ("id", "email", "password", "name", "createdAt")
 VALUES
-    ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'user1@example.com', 'hashed_password1', 'User One', NOW()),
-    ('b1946c30-7772-49a3-a8a4-01c8d5238b01', 'user2@example.com', 'hashed_password2', 'User Two', NOW()),
-    ('c2f72c61-4e8c-4c8d-b6f6-02a0e0248c01', 'user3@example.com', 'hashed_password3', 'User Three', NOW());
+    (gen_random_uuid(), 'user1@example.com', 'hashed_password1', 'User One', NOW()),
+    (gen_random_uuid(), 'user2@example.com', 'hashed_password2', 'User Two', NOW()),
+    (gen_random_uuid(), 'user3@example.com', 'hashed_password3', 'User Three', NOW());
 
 INSERT INTO "color_palettes" ("id", "userId", "primaryColor", "secondaryColor", "thirdColor", "createdAt")
 VALUES
