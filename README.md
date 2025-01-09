@@ -158,7 +158,8 @@ O usuário pode criar uma arte de mapa escolhendo três cores novas sem a necess
 
 # 4. Modelo Conceitual
 
-O modelo conceitual do banco de dados foi criado utilizando a ferramenta [BrModelo](https://www.brmodeloweb.com/lang/pt-br/index.html).
+O modelo conceitual do banco de dados foi criado utilizando a ferramenta [BrModelo](https://www.brmodeloweb.com/lang/pt-br/index.html).  
+> Ele não possui os atributos por que acordei junto ao professor na sala para não colocar eles, para dar ênfase na visualização das relações e todos os atributos estão presentes no modelo lógico.
 
 ![Modelo conceitual para o banco de dados do Martp](assets/modelo_conceitual.png)
 
@@ -490,7 +491,7 @@ Isso vai copiar o seu backup para dentro da pasta documentos e agora você tem a
 
 
 > Para um sistema robusto e que tivesse um banco de dados rodando na nuvem por  exemplo, seria preciso uma estratégia de backup automatizada e mais bem elaborada.
-> Por exemplo, no caso do Martp, por se tratar de um projeto que não envolve nenhum tipo de operação financeira ou dado sensível que não pode ser perdido poderíamos automatizar para efetuar um backup por semana.
+> Por exemplo, no caso do Martp, por se tratar de um projeto acadêmico que não envolve nenhum tipo de operação financeira ou dado sensível que não pode ser perdido poderíamos automatizar para efetuar um **full** backup por semana em algum **servidor em nuvem** e ter uma **retenção de 2 semanas**.
 
 # 9. Política de Privacidade
 
