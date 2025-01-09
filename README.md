@@ -1,8 +1,8 @@
 ## Aluno: Manoel Ribeiro de Jesus
 
-https://drive.google.com/file/d/1U3NiZZFxACQ_x9JXu8312aB0evXMo90d/view?usp=drive_link
+https://github.com/user-attachments/assets/e9a0cfe4-58b7-4f72-b6b4-9e3440b00f7c
 
-<iframe src="https://drive.google.com/file/d/1U3NiZZFxACQ_x9JXu8312aB0evXMo90d/preview" width="640" height="480" allow="autoplay"></iframe>
+O vídeo do trabalho também pode ser acessado nesse link do google drive -> https://drive.google.com/file/d/1U3NiZZFxACQ_x9JXu8312aB0evXMo90d/view?usp=sharing
 
 # 1. Motivação
 
