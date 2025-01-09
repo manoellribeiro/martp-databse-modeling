@@ -1,3 +1,5 @@
+## Aluno: Manoel Ribeiro de Jesus
+
 # 1. Motivação
 
 No semestre 2023.2, fiz a disciplina HACB12 - Laboratório de Arte e Interfaces. Nela, eu criei um pequeno projeto para
