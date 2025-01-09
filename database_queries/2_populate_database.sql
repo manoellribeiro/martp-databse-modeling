@@ -1,31 +1,76 @@
-INSERT INTO "users" ("id", "email", "password", "name", "createdAt")
-VALUES
-    (gen_random_uuid(), 'user1@example.com', 'hashed_password1', 'User One', NOW()),
-    (gen_random_uuid(), 'user2@example.com', 'hashed_password2', 'User Two', NOW()),
-    (gen_random_uuid(), 'user3@example.com', 'hashed_password3', 'User Three', NOW());
+-- Insert 100 users
+INSERT INTO "users" ("id", "email", "password", "name", "updatedAt", "createdAt", "deletedAt", "isDeleted")
+SELECT
+    gen_random_uuid(),
+    'user' || i || '@example.com',
+    'password123',
+    'User ' || i,
+    NOW(),
+    NOW(),
+    NULL,
+    false
+FROM generate_series(1, 100) AS i;
 
-INSERT INTO "color_palettes" ("id", "userId", "primaryColor", "secondaryColor", "thirdColor", "createdAt")
-VALUES
-    ('d3e08c92-1f0b-4ef8-bb6d-6bb9bd380a12', (SELECT "id" FROM "users" WHERE "email" = 'user1@example.com'), 'FF0000', '00FF00', '0000FF', NOW()),
-    ('e4f34c31-2772-49a3-a8a4-01c8d5238b02', (SELECT "id" FROM "users" WHERE "email" = 'user2@example.com'), 'FFFFFF', '000000', '808080', NOW());
+-- Insert 100 color palettes
+INSERT INTO "color_palettes" ("id", "userId", "primaryColor", "secondaryColor", "thirdColor", "updatedAt", "createdAt", "deletedAt", "isDeleted")
+SELECT
+    gen_random_uuid(),
+    (SELECT "id" FROM "users" ORDER BY RANDOM() LIMIT 1),
+    lpad(to_hex((random()*255)::int), 2, '0') || lpad(to_hex((random()*255)::int), 2, '0') || lpad(to_hex((random()*255)::int), 2, '0'),
+    lpad(to_hex((random()*255)::int), 2, '0') || lpad(to_hex((random()*255)::int), 2, '0') || lpad(to_hex((random()*255)::int), 2, '0'),
+    lpad(to_hex((random()*255)::int), 2, '0') || lpad(to_hex((random()*255)::int), 2, '0') || lpad(to_hex((random()*255)::int), 2, '0'),
+    NOW(),
+    NOW(),
+    NULL,
+    false
+FROM generate_series(1, 100);
 
+-- Insert 100 map arts
 INSERT INTO "map_arts" ("id", "userId", "colorPaletteId", "title", "url", "latitude", "longitude", "createdAt")
-VALUES
-    ('27c4b8cb-879a-4fb2-bbec-2769330f1e8b', (SELECT "id" FROM "users" WHERE "email" = 'user1@example.com'), (SELECT "id" FROM "color_palettes" WHERE "primaryColor" = 'FF0000'), 'Red Art', 'https://example.com/red_art.jpg', -33.8688, 151.2093, NOW()),
-    ('0dfb3c88-6816-4076-afa9-b9eaa111f46c', (SELECT "id" FROM "users" WHERE "email" = 'user2@example.com'), (SELECT "id" FROM "color_palettes" WHERE "primaryColor" = 'FFFFFF'), 'Black & White Art', 'https://example.com/bw_art.jpg', 37.7749, -122.4194, NOW());
+SELECT
+    gen_random_uuid(),
+    (SELECT "id" FROM "users" ORDER BY RANDOM() LIMIT 1),
+    (SELECT "id" FROM "color_palettes" ORDER BY RANDOM() LIMIT 1),
+    'Art Title ' || i,
+    'https://example.com/art' || i || '.jpg',
+    round((-90 + random() * 180)::numeric, 6),
+    round((-180 + random() * 360)::numeric, 6),
+    NOW()
+FROM generate_series(1, 100) AS i;
 
+-- Insert 100 comments
 INSERT INTO "users_comments_map_arts" ("id", "mapArtCommentedId", "userWhoCommentedId", "comment", "createdAt")
-VALUES
-    ('cdf034a6-bca5-4a59-b942-6c61bdf539c0', (SELECT "id" FROM "map_arts" WHERE "title" = 'Red Art'), (SELECT "id" FROM "users" WHERE "email" = 'user2@example.com'), 'Nice colors!', NOW());
+SELECT
+    gen_random_uuid(),
+    (SELECT "id" FROM "map_arts" ORDER BY RANDOM() LIMIT 1),
+    (SELECT "id" FROM "users" ORDER BY RANDOM() LIMIT 1),
+    'Nice artwork ' || i,
+    NOW()
+FROM generate_series(1, 100) AS i;
 
+-- Insert 100 likes
 INSERT INTO "users_likes_map_arts" ("id", "postLikedId", "userWhoLikedId", "createdAt")
-VALUES
-    ('1e7fc362-ad1c-455a-9181-6017bf5277c8', (SELECT "id" FROM "map_arts" WHERE "title" = 'Black & White Art'), (SELECT "id" FROM "users" WHERE "email" = 'user1@example.com'), NOW());
+SELECT
+    gen_random_uuid(),
+    (SELECT "id" FROM "map_arts" ORDER BY RANDOM() LIMIT 1),
+    (SELECT "id" FROM "users" ORDER BY RANDOM() LIMIT 1),
+    NOW()
+FROM generate_series(1, 100);
 
+-- Insert 100 follows
 INSERT INTO "users_follows_users" ("id", "followingUserId", "followedUserId", "createdAt")
-VALUES
-    ('58767dec-7482-4e50-9a2a-24a882a79a2a', (SELECT "id" FROM "users" WHERE "email" = 'user1@example.com'), (SELECT "id" FROM "users" WHERE "email" = 'user2@example.com'), NOW());
+SELECT
+    gen_random_uuid(),
+    (SELECT "id" FROM "users" ORDER BY RANDOM() LIMIT 1),
+    (SELECT "id" FROM "users" ORDER BY RANDOM() LIMIT 1),
+    NOW()
+FROM generate_series(1, 100);
 
+-- Insert 100 favorites
 INSERT INTO "users_favorites_posts" ("id", "postId", "userId", "createdAt")
-VALUES
-    ('e715979e-470b-4a6b-b8db-c02abae158f9', (SELECT "id" FROM "map_arts" WHERE "title" = 'Red Art'), (SELECT "id" FROM "users" WHERE "email" = 'user2@example.com'), NOW());
+SELECT
+    gen_random_uuid(),
+    (SELECT "id" FROM "map_arts" ORDER BY RANDOM() LIMIT 1),
+    (SELECT "id" FROM "users" ORDER BY RANDOM() LIMIT 1),
+    NOW()
+FROM generate_series(1, 100);
