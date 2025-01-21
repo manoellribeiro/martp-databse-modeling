@@ -625,5 +625,146 @@ ORDER BY creation_date;
 
 Esses dados em conjunto mostram um resumo do uso do Martp e podem ser visualizados de diferentes formas como text, dashboards e gráficos.
 
+# 11. Utilizando um banco de dados emergente (Projeto 2)
 
+Para o projeto 2 o banco de dados escolhido foi o MongoDb. Assim como no projeto um, vamos utilizar o docker para criar a nossa instância do MongoDb e depois utilizar algum gerenciador de banco de dados para manipular o banco e executar algumas queries.
+
+### 11.1 Iniciando o container
+
+Para iniciar o container, basta rodar o comando abaixo no seu terminal. Ele irá criar um container utilizando uma imagem do mongo db e com um volume configurado.
+
+```
+sudo docker run -d --name martp-mongo -e MONGO_INITDB_ROOT_USERNAME=mongo -e MONGO_INITDB_ROOT_PASSWORD=password -p 27017:27017 -v martp-mongo:/data/db  mongo
+```
+
+### 11.2 Criando o banco de dados
+
+No mongo não é necessário criar um schema antes de começar a inserir dados, então apenas criar nosso banco acessando o terminal dentro do container.
+
+```
+sudo docker exec -t -i martp-mongo /bin/bash
+```
+
+Agora você têm pode utilizar o comando mongosh e autenticar para fazer modificações no banco.
+
+```
+mongosh admin -u mongo -p password
+```
+
+Depois disso podemos de fato criar nosso banco de dados com o comando a seguir:
+
+```
+use [martp-database]
+```
+
+Mas para que o banco de dados apareça no nosso gerenciador, é preciso inserir algo nele, vamos fazer isso utilizando o seguinte comando:
+
+```
+db.startCollection.insertOne({database: "martp"})
+```
+
+Pronto, agora temos uma banco de dados funcional e com dados que serão persistidos mesmo que a execução do container seja interrompida.
+
+### 11.3 Populando o banco de dados com 5000 entradas em cada collection
+
+Para fazer isso vamos utilizar um script gerado por inteligência artifical, ele se encontra na pasta [database_queries](assets/3_mongo_schema.js) na raiz do projeto.
+Basta copiar o conteúdo desse script e rodar ele no console do seu gerenciador de banco de dados, como o [Mongo Db Compass](https://www.mongodb.com/pt-br/products/tools/compass). Após a execução do arquivo você terá uma banco de dados populados com 5000 entradas em cada coleção.
+
+# 12. Fazendo buscas no banco de dados emergente
+
+Para exemplificar algumas buscar no banco de dados, vamos utilizar os mesmo exemplos da seção *10*.
+
+### Número total de usuários.
+
+```
+db.users.countDocuments();
+```
+
+### Número total de artes criadas.
+
+```
+db.map_arts.countDocuments();
+```
+
+### Número total de comentários.
+
+```
+db.users_comments_map_arts.countDocuments();
+```
+
+### Número total de curtidas.
+
+```
+db.users_likes_map_arts.countDocuments();
+```
+
+### Média de artes criadas por usuário.
+
+```
+const totalMapArts = db.map_arts.countDocuments();
+const totalUsers = db.users.countDocuments();
+const media = totalMapArts / totalUsers;
+media;
+```
+
+### Usuários com mais artes criadas.
+
+```
+db.map_arts.aggregate([
+    { $group: { _id: "$userId", map_art_count: { $sum: 1 } } },
+    { $lookup: { from: "users", localField: "_id", foreignField: "id", as: "user" } },
+    { $unwind: "$user" },
+    { $project: { userId: "$_id", name: "$user.name", map_art_count: 1 } },
+    { $sort: { map_art_count: -1 } },
+    { $limit: 5 }
+]);
+```
+
+### Artes mais curtidas.
+
+Pode ser utilizada em uma imagem em formato de pódio ou ranking.
+
+```
+db.users_likes_map_arts.aggregate([
+    { $group: { _id: "$postLikedId", like_count: { $sum: 1 } } },
+    { $lookup: { from: "map_arts", localField: "_id", foreignField: "id", as: "map_art" } },
+    { $unwind: "$map_art" },
+    { $project: { id: "$_id", title: "$map_art.title", like_count: 1 } },
+    { $sort: { like_count: -1 } },
+    { $limit: 3 }
+]);
+```
+
+### Artes mais comentadas.
+
+```
+db.users_comments_map_arts.aggregate([
+    { $group: { _id: "$mapArtCommentedId", comment_count: { $sum: 1 } } },
+    { $lookup: { from: "map_arts", localField: "_id", foreignField: "id", as: "map_art" } },
+    { $unwind: "$map_art" },
+    { $project: { id: "$_id", title: "$map_art.title", comment_count: 1 } },
+    { $sort: { comment_count: -1 } },
+    { $limit: 3 }
+]);
+```
+
+### Novos cadastrados de usuários por dia nos últimos 30 dias.
+
+```
+db.users.aggregate([
+    { $match: { createdAt: { $gte: new Date(new Date() - 30 * 24 * 60 * 60 * 1000) } } },
+    { $group: { _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, new_users: { $sum: 1 } } },
+    { $sort: { _id: 1 } }
+]);
+```
+
+### Novas artes criadas por dia nos últimos 30 dias.
+
+```
+db.map_arts.aggregate([
+    { $match: { createdAt: { $gte: new Date(new Date() - 30 * 24 * 60 * 60 * 1000) } } },
+    { $group: { _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, new_map_arts: { $sum: 1 } } },
+    { $sort: { _id: 1 } }
+]);
+```
 
