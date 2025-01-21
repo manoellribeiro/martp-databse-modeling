@@ -627,6 +627,10 @@ Esses dados em conjunto mostram um resumo do uso do Martp e podem ser visualizad
 
 # 11. Utilizando um banco de dados emergente (Projeto 2)
 
+https://github.com/user-attachments/assets/796ff771-2458-4a96-939c-45b3bc1d82d5
+
+Link no drive: https://drive.google.com/file/d/1ScRdxyDtvG3RsHgJI3_v_l3iiDIYISj_/view?usp=sharing
+
 Para o projeto 2 o banco de dados escolhido foi o MongoDb. Assim como no projeto um, vamos utilizar o docker para criar a nossa instância do MongoDb e depois utilizar algum gerenciador de banco de dados para manipular o banco e executar algumas queries.
 
 ### 11.1 Iniciando o container
